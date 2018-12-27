@@ -1,14 +1,26 @@
 /*
  * Create a list that holds all of your cards
  */
+//store list of cards
+ let listOfCards = document.getElementsByClassName('card');
 
-
+ let deck = document.querySelector('ul.deck');
+// start game by shuffling list of cards
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ listOfCards = shuffle(Array.from(listOfCards));
+// loop through shuffled list of cards and add them back to deck
+
+ for (let card of listOfCards){
+      deck.appendChild(card);
+ }
+
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,6 +36,8 @@ function shuffle(array) {
 
     return array;
 }
+
+
 
 
 /*

@@ -35,17 +35,42 @@ function shuffle(array) {
     return array;
 }
 
-// set up click event handler on deck for listen for clicks on all child listOfCards
-let openCards = [];
-deck.addEventListener('click', function(e){
-  //console.log('you clicked the deck');
-  if (e.target.nodeName === 'LI') {
-    //if card is clicked display symbol
-    e.target.classList.add('open','show');
-    openCards.push(e.target);
-    console.log(openCards);
-  }
-});
+// set up click event handler on deck to flip cards
+function flipCard(){
+  let openCards = [];
+
+  deck.addEventListener('click', function(e){
+    if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') || !e.target.classList.contains('show') || !e.target.classList.contains('match')) {
+      openCards.push(e.target);
+      e.target.classList.add('open','show');
+      console.log(openCards.length);
+      if (openCards.length == 2){
+
+        //check for match
+        if(openCards[0].firstElementChild.classList.item(1) === openCards[1].firstElementChild.classList.item(1)){
+          openCards[0].classList.add('match');
+          openCards[1].classList.add('match');
+        }
+
+
+        setTimeout(function(){
+          for (c of openCards){
+            c.classList.remove('open','show');
+
+          }
+          openCards = [];
+
+        },500);
+
+      } else {
+        //console.log(openCards);
+      }
+
+    }
+  });
+}
+flipCard();
+
 
 
 /*

@@ -2,23 +2,45 @@
  * Create a list that holds all of your cards
  */
 //store list of cards
- let listOfCards = document.getElementsByClassName('card');
+let openCards = [];
+let moves = 0;
+let moveCounter = document.querySelector('span.moves');
+let listOfCards = document.getElementsByClassName('card');
+let deck = document.querySelector('ul.deck');
+let stars = document.querySelector('ul.stars');
+function initGame(){
+  //reset number of moves and star counter
+  stars.innerHTML = "";
+  moveCounter.innerText = moves;
 
- let deck = document.querySelector('ul.deck');
-// start game by shuffling list of cards
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
- listOfCards = shuffle(Array.from(listOfCards));
-// loop through shuffled list of cards and add them back to deck
- for (let card of listOfCards){
-        //turn cards upside down to hide symbols
-      card.classList.remove('open','match','show');
-      deck.appendChild(card);
- }
+  //console.log(moveCounter.innerText);
+  //create setinterval function to keep track of timer for game
+  // setinterval(function(){
+  //
+  // });
+
+  // let listOfCards = document.getElementsByClassName('card');
+  //
+  // let deck = document.querySelector('ul.deck');
+ // start game by shuffling list of cards
+ /*
+  * Display the cards on the page
+  *   - shuffle the list of cards using the provided "shuffle" method below
+  *   - loop through each card and create its HTML
+  *   - add each card's HTML to the page
+  */
+  listOfCards = shuffle(Array.from(listOfCards));
+ // loop through shuffled list of cards and add them back to deck
+  for (let card of listOfCards){
+         //turn cards upside down to hide symbols
+       card.classList.remove('open','match','show');
+       deck.appendChild(card);
+  }
+
+  flipCard();
+
+}
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -37,39 +59,44 @@ function shuffle(array) {
 
 // set up click event handler on deck to flip cards
 function flipCard(){
-  let openCards = [];
-
+  // let openCards = [];
+  // let deck = document.querySelector('ul.deck');
   deck.addEventListener('click', function(e){
-    if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') || !e.target.classList.contains('show') || !e.target.classList.contains('match')) {
+    if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
       openCards.push(e.target);
       e.target.classList.add('open','show');
       console.log(openCards.length);
-      if (openCards.length == 2){
+      if (openCards.length === 2){
 
         //check for match
         if(openCards[0].firstElementChild.classList.item(1) === openCards[1].firstElementChild.classList.item(1)){
           openCards[0].classList.add('match');
           openCards[1].classList.add('match');
-        }
-
-
-        setTimeout(function(){
-          for (c of openCards){
-            c.classList.remove('open','show');
-
-          }
           openCards = [];
+        }else {
+          //if no match
+          setTimeout(function(){
+            for (c of openCards){
+              c.classList.remove('open','show');
 
-        },500);
+            }
+            openCards = [];
 
-      } else {
-        //console.log(openCards);
+          },200);
+
+        }
+        moves += 1
+        moveCounter.innerText = moves;
+        stars.innerHTML += '<li><i class="fa fa-star"></i></li>';
+
       }
 
     }
   });
 }
-flipCard();
+//flipCard();
+initGame();
+
 
 
 

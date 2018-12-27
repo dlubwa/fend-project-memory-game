@@ -14,13 +14,11 @@
  */
  listOfCards = shuffle(Array.from(listOfCards));
 // loop through shuffled list of cards and add them back to deck
-
  for (let card of listOfCards){
+        //turn cards upside down to hide symbols
+      card.classList.remove('open','match','show');
       deck.appendChild(card);
  }
-
-
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -37,7 +35,17 @@ function shuffle(array) {
     return array;
 }
 
-
+// set up click event handler on deck for listen for clicks on all child listOfCards
+let openCards = [];
+deck.addEventListener('click', function(e){
+  //console.log('you clicked the deck');
+  if (e.target.nodeName === 'LI') {
+    //if card is clicked display symbol
+    e.target.classList.add('open','show');
+    openCards.push(e.target);
+    console.log(openCards);
+  }
+});
 
 
 /*

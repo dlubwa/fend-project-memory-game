@@ -3,21 +3,25 @@
  */
 //store list of cards
 let openCards = [];
+let matchedCards = [];
 let moves = 0;
+let timer = 0;
 let moveCounter = document.querySelector('span.moves');
 let listOfCards = document.getElementsByClassName('card');
 let deck = document.querySelector('ul.deck');
 let stars = document.querySelector('ul.stars');
+let reset = document.querySelector('div.restart');
 function initGame(){
   //reset number of moves and star counter
-  stars.innerHTML = "";
+  //stars.innerHTML = "";
   moveCounter.innerText = moves;
 
   //console.log(moveCounter.innerText);
   //create setinterval function to keep track of timer for game
-  // setinterval(function(){
-  //
-  // });
+  let gameTimer = setInterval(function(){
+    timer += 1;
+    //console.log(timer);
+  }, 2000);
 
   // let listOfCards = document.getElementsByClassName('card');
   //
@@ -65,7 +69,7 @@ function flipCard(){
     if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
       openCards.push(e.target);
       e.target.classList.add('open','show');
-      console.log(openCards.length);
+      //console.log(openCards.length);
       if (openCards.length === 2){
 
         //check for match
@@ -73,6 +77,17 @@ function flipCard(){
           openCards[0].classList.add('match');
           openCards[1].classList.add('match');
           openCards = [];
+          matchedCards.push(openCards[0], openCards[1]);
+          if (matchedCards.length === 16){
+            swal({
+                  title: "Congratulations! You won!",
+                  text: "Wooooooo!",
+                  icon: "success",
+                  button: "Play Again!",
+                  closeOnClickOutside: false,
+                  });
+          }
+
         }else {
           //if no match
           setTimeout(function(){
@@ -87,15 +102,23 @@ function flipCard(){
         }
         moves += 1
         moveCounter.innerText = moves;
-        stars.innerHTML += '<li><i class="fa fa-star"></i></li>';
+
+        //stars.innerHTML -= '<li><i class="fa fa-star"></i></li>';
 
       }
 
     }
   });
 }
+
+reset.addEventListener('click', function(){
+  moves = 0;
+  initGame();
+})
 //flipCard();
 initGame();
+
+
 
 
 

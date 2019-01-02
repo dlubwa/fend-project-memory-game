@@ -5,7 +5,9 @@
 let matchedCards = [];
 let moves = 0;
 let gameTimer;
-let timer = 0;
+let sec = 0;
+let min = 0;
+let hr = 0;
 let moveCounter = document.querySelector('span.moves');
 let deck = document.querySelector('ul.deck');
 let stars = document.querySelector('ul.stars');
@@ -15,8 +17,18 @@ let initialClick = false;
 function startTimer(){
       let spanTimer = document.querySelector('span.timer');
       gameTimer = setInterval(function() {
-          timer += 1;
-          spanTimer.innerHTML = timer;
+          sec++;
+          spanTimer.innerHTML = `H${hr}:M${min}:S${sec}`;
+
+          if (sec == 60){
+            min++;
+            sec = 0;
+
+          }
+          if (min == 60){
+            hr++;
+            min = 0;
+          }
 
       }, 1000);
     }
@@ -37,7 +49,7 @@ function initGame() {
     }
 
     flipCard();
-    startTimer();
+    //startTimer();
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -58,23 +70,18 @@ function shuffle(array) {
 
 // set up click event handler on deck to flip cards
 function flipCard() {
-     let matchCards = [];
      let openCards = [];
      let deck = document.querySelector('ul.deck');
     deck.addEventListener('click', function(e) {
         if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
             openCards.push(e.target);
             e.target.classList.add('open', 'show')
-            // startTimer();
-            // initialClick = true;
-            // if (initialClick){ /*start game timer */ startTimer(); }
-
             if (openCards.length === 2){
+              //initiate counter for every move
+              counter();
               //check if cards match
               checkMatch(openCards);
               openCards = [];
-              //initiate counter for every move
-              counter();
 
             }
 
@@ -113,7 +120,10 @@ function noMatch(array){
 
 function counter(){
   moves += 1;
-  moveCounter.innerText = moves;
+  moveCounter.innerHTML = moves;
+  if (moves == 1){
+    startTimer();
+  }
   if (moves > 8 && moves <= 16){
     document.getElementById('first').style.display="none";
   }else if (moves > 16){
@@ -131,7 +141,7 @@ function winGame(array){
     stopTimer();
       swal({
           title: "Congratulations! You won!",
-          text: `Wooooooo! you finished the game in ${timer} seconds and ${moves} number of moves`,
+          text: `Wooooooo! you finished the game in ${hr}:${min}:${sec} seconds with ${moves} moves ${stars.innerHTML}`,
           icon: "success",
           button: "Play Again!",
           closeOnClickOutside: false,

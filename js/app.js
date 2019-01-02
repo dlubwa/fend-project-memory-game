@@ -3,6 +3,7 @@
  */
 //store list of cards
 let matchedCards = [];
+let numOfStars = [];
 let moves = 0;
 let gameTimer;
 let sec = 0;
@@ -10,7 +11,7 @@ let min = 0;
 let hr = 0;
 let moveCounter = document.querySelector('span.moves');
 let deck = document.querySelector('ul.deck');
-let stars = document.querySelector('ul.stars');
+let stars = document.querySelectorAll('ul.stars li');
 let reset = document.querySelector('div.restart');
 let initialClick = false;
 
@@ -101,6 +102,7 @@ function checkMatch(array){
          //check for winning game condition
          winGame(matchedCards);
 
+
        } else {
            //if no match
            noMatch(array);
@@ -136,12 +138,15 @@ function counter(){
 
 function winGame(array){
   //let numStars = document.getElementsByClassName("star");
+
   if (array.length === 16) {
     //stop timer
+
     stopTimer();
+    countStars();
       swal({
           title: "Congratulations! You won!",
-          text: `Wooooooo! you finished the game in ${hr}:${min}:${sec} seconds with ${moves} moves ${stars.innerHTML}`,
+          text: `Wooooooo! you finished the game in ${hr}:${min}:${sec} seconds with ${moves} moves ${numOfStars.length} star`,
           icon: "success",
           button: "Play Again!",
           closeOnClickOutside: false,
@@ -149,6 +154,19 @@ function winGame(array){
 
   }
 
+}
+
+function countStars(){
+
+  for (star of stars){
+    if(!star.hasAttribute('style')){
+      numOfStars.push(star);
+      //console.log(star);
+      //document.querySelector('.stars').innerHTML = star;
+    }
+
+  }
+  //console.log(numOfStars.length)
 }
 
 reset.addEventListener('click', function() {

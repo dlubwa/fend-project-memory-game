@@ -37,6 +37,7 @@ function initGame() {
     }
 
     flipCard();
+    startTimer();
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -64,9 +65,10 @@ function flipCard() {
         if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
             openCards.push(e.target);
             e.target.classList.add('open', 'show')
-            startTimer();
+            // startTimer();
             // initialClick = true;
             // if (initialClick){ /*start game timer */ startTimer(); }
+
             if (openCards.length === 2){
               //check if cards match
               checkMatch(openCards);
@@ -123,14 +125,13 @@ function counter(){
 }
 
 function winGame(array){
-  let numStars = document.getElementsByClassName("star");
+  //let numStars = document.getElementsByClassName("star");
   if (array.length === 16) {
     //stop timer
-
     stopTimer();
       swal({
           title: "Congratulations! You won!",
-          text: `Wooooooo! you finished the game in ${timer} seconds and ${numStars.length} stars`,
+          text: `Wooooooo! you finished the game in ${timer} seconds and ${moves} number of moves`,
           icon: "success",
           button: "Play Again!",
           closeOnClickOutside: false,

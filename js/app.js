@@ -13,13 +13,13 @@ let moveCounter = document.querySelector('span.moves');
 let deck = document.querySelector('ul.deck');
 let stars = document.querySelectorAll('ul.stars li');
 let reset = document.querySelector('div.restart');
-let initialClick = false;
+
 
 function startTimer(){
       let spanTimer = document.querySelector('span.timer');
       gameTimer = setInterval(function() {
           sec++;
-          spanTimer.innerHTML = `H${hr}:M${min}:S${sec}`;
+          spanTimer.innerHTML = `${hr}H:${min}M:${sec}S`;
 
           if (sec == 60){
             min++;
@@ -137,7 +137,6 @@ function counter(){
 }
 
 function winGame(array){
-  //let numStars = document.getElementsByClassName("star");
 
   if (array.length === 16) {
     //stop timer
@@ -146,10 +145,17 @@ function winGame(array){
     countStars();
       swal({
           title: "Congratulations! You won!",
-          text: `Wooooooo! you finished the game in ${hr}:${min}:${sec} seconds with ${moves} moves ${numOfStars.length} star`,
+          text: `In ${hr} hr: ${min} mins: ${sec} secs with ${numOfStars.length} star(s)  and ${moves} moves `,
           icon: "success",
           button: "Play Again!",
           closeOnClickOutside: false,
+      }).then((value) => {
+        //if player chooses to play again
+        if(value){
+          //console.log("hooray!");reset everything
+            
+        }
+
       });
 
   }
@@ -161,12 +167,9 @@ function countStars(){
   for (star of stars){
     if(!star.hasAttribute('style')){
       numOfStars.push(star);
-      //console.log(star);
-      //document.querySelector('.stars').innerHTML = star;
     }
-
   }
-  //console.log(numOfStars.length)
+
 }
 
 reset.addEventListener('click', function() {

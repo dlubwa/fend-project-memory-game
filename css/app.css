@@ -66,23 +66,30 @@ h1 {
 }
 
 .deck .card.open {
-    transform: rotateY(0);
+    transform: rotateX(0);
     background: #02b3e4;
     cursor: default;
 }
 
+
 .deck .card.flip{
-    opacity: 0.3;
+    opacity: 0.9;
+    background:red;
+    transform: rotate(10deg);
+
+
 }
 
 .deck .card.show {
     font-size: 33px;
+
 }
 
 .deck .card.match {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    
 }
 
 /*

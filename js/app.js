@@ -101,21 +101,24 @@ function checkMatch(array) {
         winGame(matchedCards);
     } else {
         //if no match
+
         array[0].classList.add('flip');
         array[1].classList.add('flip');
         noMatch(array);
+
     }
 }
 
 
 function noMatch(array) {
+
     setTimeout(function() {
         for (c of array) {
-
             c.classList.remove('open', 'show','flip');
         }
         array = [];
     }, 800);
+
 }
 
 

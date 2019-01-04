@@ -1,5 +1,6 @@
 let matchedCards = [];
 let numOfStars = [];
+let openCards = [];
 let moves = 0;
 let gameTimer;
 let sec = 0;
@@ -71,7 +72,7 @@ function shuffle(array) {
 
 // set up click event handler on deck to flip cards
 function flipCard() {
-    let openCards = [];
+
     let deck = document.querySelector('ul.deck');
     deck.addEventListener('click', function(e) {
         if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
@@ -187,6 +188,7 @@ reset.addEventListener('click', resetGame);
 function resetGame() {
     numOfStars = [];
     matchedCards = [];
+    openCards = [];
     //reset timer
     stopTimer();
     sec = 0;

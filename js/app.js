@@ -15,7 +15,7 @@ let spanTimer = document.querySelector('span.timer');
 function startTimer() {
     gameTimer = setInterval(function() {
         sec++;
-        spanTimer.innerHTML = `${hr}H:${min}M:${sec}S`;
+        spanTimer.innerHTML = `${hr}HR:${min}MIN:${sec}SEC`;
 
         if (sec == 60) {
             min++;
@@ -68,6 +68,7 @@ function shuffle(array) {
     return array;
 }
 
+
 // set up click event handler on deck to flip cards
 function flipCard() {
     let openCards = [];
@@ -82,9 +83,7 @@ function flipCard() {
                 //check if cards match
                 checkMatch(openCards);
                 openCards = [];
-
             }
-
         }
     });
 
@@ -100,10 +99,10 @@ function checkMatch(array) {
         matchedCards.push(array[0], array[1]);
         //check for winning game condition
         winGame(matchedCards);
-
-
     } else {
         //if no match
+        array[0].classList.add('flip');
+        array[1].classList.add('flip');
         noMatch(array);
     }
 }
@@ -112,19 +111,22 @@ function checkMatch(array) {
 function noMatch(array) {
     setTimeout(function() {
         for (c of array) {
-            c.classList.remove('open', 'show');
+
+            c.classList.remove('open', 'show','flip');
         }
         array = [];
-    }, 500);
-
+    }, 800);
 }
+
 
 function counter() {
     moves += 1;
     moveCounter.innerHTML = moves;
     if (moves == 1) {
+      //start timer
         startTimer();
     }
+    // hide stars when moves increase
     if (moves > 8 && moves <= 16) {
         document.getElementById('first').style.display = "none";
     } else if (moves > 16) {
@@ -136,7 +138,6 @@ function counter() {
 
 
 function winGame(array) {
-
     if (array.length === 16) {
         //stop timer
         stopTimer();
@@ -147,12 +148,15 @@ function winGame(array) {
             title: "Congratulations! You won!",
             text: `In ${hr} hr: ${min} mins: ${sec} secs with ${numOfStars.length} star(s)  and ${moves} moves `,
             icon: "success",
-            button: "Play Again!",
+            //button: "Play Again!",
+            buttons: [true, "Play Again!"],
             closeOnClickOutside: false,
         }).then((value) => {
             if (value) {
                 //if player chooses to play again
                 resetGame();
+            } else{
+              swal('Thanks for playing! Close the tab on your way out!');
             }
 
         });
@@ -172,8 +176,10 @@ function countStars() {
 
 }
 
+
 //reset game
 reset.addEventListener('click', resetGame);
+
 
 function resetGame() {
     numOfStars = [];
@@ -183,7 +189,7 @@ function resetGame() {
     sec = 0;
     hr = 0;
     min = 0;
-    spanTimer.innerHTML = `${hr}H:${min}M:${sec}S`;
+    spanTimer.innerHTML = `${hr}HR:${min}MIN:${sec}SEC`;
 
     //reset moves
     moves = 0;

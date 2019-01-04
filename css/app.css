@@ -71,6 +71,10 @@ h1 {
     cursor: default;
 }
 
+.deck .card.flip{
+    opacity: 0.3;
+}
+
 .deck .card.show {
     font-size: 33px;
 }

@@ -11,6 +11,8 @@ let deck = document.querySelector('ul.deck');
 let stars = document.querySelectorAll('ul.stars li');
 let reset = document.querySelector('div.restart');
 let spanTimer = document.querySelector('span.timer');
+let isClickAllowed = true;
+
 
 
 function startTimer() {
@@ -75,7 +77,9 @@ function flipCard() {
 
     let deck = document.querySelector('ul.deck');
     deck.addEventListener('click', function(e) {
-        if ((e.target.nodeName === 'LI') && !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
+        if ((e.target.nodeName === 'LI') &&
+          isClickAllowed === true &&
+         !e.target.classList.contains('open') && !e.target.classList.contains('show') && !e.target.classList.contains('match')) {
             openCards.push(e.target);
             e.target.classList.add('open', 'show')
             if (openCards.length === 2) {
@@ -92,33 +96,46 @@ function flipCard() {
 
 
 function checkMatch(array) {
+
     //check if match
     if (array[0].firstElementChild.classList.item(1) ===
         array[1].firstElementChild.classList.item(1)) {
+        isClickAllowed = false;
         array[0].classList.add('match');
         array[1].classList.add('match');
         matchedCards.push(array[0], array[1]);
         //check for winning game condition
         winGame(matchedCards);
+        //prevent multiple clicks allow only two clicks per move
+        setTimeout(function(){
+          isClickAllowed = true;
+        },800);
+        //
     } else {
         //if no match
-
         array[0].classList.add('flip');
         array[1].classList.add('flip');
         noMatch(array);
 
+
     }
+
 }
 
 
 function noMatch(array) {
-
+    //allow only two clicks per move
+    isClickAllowed = false;
     setTimeout(function() {
         for (c of array) {
             c.classList.remove('open', 'show','flip');
         }
         array = [];
+        isClickAllowed = true;
     }, 800);
+
+
+
 
 }
 
@@ -189,6 +206,7 @@ function resetGame() {
     numOfStars = [];
     matchedCards = [];
     openCards = [];
+    isClickAllowed = true;
     //reset timer
     stopTimer();
     sec = 0;
